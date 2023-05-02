@@ -5,7 +5,7 @@ metadata:
 data:
   DB_HOST: mysql
   DB_NAME: OrdersDB
-  DB_PASSWORD: shen21li
+  DB_PASSWORD: root
   DB_USERNAME: root
   MYSQL_DATABASE: OrdersDB
   MYSQL_ROOT_PASSWORD: root

@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: '{{.Values.microservices.myservice.serviceName}}'
+  labels:
+    app: '{{.Values.microservices.myservice.serviceName}}'
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: '{{.Values.microservices.myservice.serviceName}}'
+  template:
+    metadata:
+      labels:
+        app: '{{.Values.microservices.myservice.serviceName}}'
+    spec:
+      containers:
+      - name: '{{.Values.microservices.myservice.serviceName}}'
+        image: '{{.Values.microservices.myservice.dockerImage}}'
+        ports:
+        - containerPort: 8080
+        env:
+        - name: '{{.Values.microservices.myservice.envs.MYSQL_ROOT_PASSWORD.name}}'
+          valueFrom:
+            configMapKeyRef:
+              name: '{{.Values.microservices.myservice.serviceName}}'
+              key: '{{.Values.microservices.myservice.envs.MYSQL_ROOT_PASSWORD.name}}'
+        - name: '{{.Values.microservices.myservice.envs.MYSQL_DATABASE.name}}'
+          valueFrom:
+            configMapKeyRef:
+              name: '{{.Values.microservices.myservice.serviceName}}'
+              key: '{{.Values.microservices.myservice.envs.MYSQL_DATABASE.name}}'
+        - name: '{{.Values.microservices.myservice.envs.DB_HOST.name}}'
+          valueFrom:
+            configMapKeyRef:
+              name: '{{.Values.microservices.myservice.serviceName}}'
+              key: '{{.Values.microservices.myservice.envs.DB_HOST.name}}'
+        - name: '{{.Values.microservices.myservice.envs.DB_NAME.name}}'
+          valueFrom:
+            configMapKeyRef:
+              name: '{{.Values.microservices.myservice.serviceName}}'
+              key: '{{.Values.microservices.myservice.envs.DB_NAME.name}}'
+        - name: '{{.Values.microservices.myservice.envs.DB_USERNAME.name}}'
+          valueFrom:
+            configMapKeyRef:
+              name: '{{.Values.microservices.myservice.serviceName}}'
+              key: '{{.Values.microservices.myservice.envs.DB_USERNAME.name}}'
+        - name: '{{.Values.microservices.myservice.envs.DB_PASSWORD.name}}'
+          valueFrom:
+            configMapKeyRef:
+              name: '{{.Values.microservices.myservice.serviceName}}'
+              key: '{{.Values.microservices.myservice.envs.DB_PASSWORD.name}}'
+        resources:
+          requests:
+            cpu: 100m
+            memory: 500Mi
+          limits:
+            cpu: '{{.Values.microservices.myservice.maxCPU}}'
+            memory: '{{.Values.microservices.myservice.maxMemory}}'

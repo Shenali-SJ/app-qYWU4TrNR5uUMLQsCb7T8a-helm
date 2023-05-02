@@ -9,5 +9,4 @@ spec:
   - name: http
     port: 80
     targetPort: 8080
-    nodePort: 30163
-  type: NodePort
+  type: ClusterIP
